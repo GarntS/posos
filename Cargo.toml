@@ -1,0 +1,7 @@
+[package]
+name = "posos"
+version = "0.1.0"
+authors = ["garnt"]
+edition = "2018"
+
+[dependencies]
