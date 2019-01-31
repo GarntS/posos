@@ -5,3 +5,13 @@ authors = ["garnt"]
 edition = "2018"
 
 [dependencies]
+bootloader = "0.3.12"
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+
+[package.metadata.bootimage]
+default-target = "arch/x86_64-posos.json"
