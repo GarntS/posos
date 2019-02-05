@@ -1,7 +1,7 @@
-// file:	main.rs
+// file:	test-panic.rs
 // author:	garnt
-// date:	1/30/2019
-// desc:	Entry point for posos kernel
+// date:	2/4/2019
+// desc:	Integration test that tests panicking.
 
 // disables the rust stl. required to run on bare metal.
 // disabling the stl breaks main() so we need to macro that off as well.
@@ -12,13 +12,16 @@
 
 // includes
 use core::panic::PanicInfo;
-use posos::{exit_qemu,println};
+use posos::{exit_qemu, serial_println};
 
-// this function is called when rust panics. tells you why and then loops.
+// this function is called when rust panics. tells you why and then exits.
 #[cfg(not(test))]
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
-	println!("{}", info);
+	serial_println!("boot failed.");
+	serial_println!("{}", info);
+
+	unsafe { exit_qemu(); }
 	loop {}
 }
 
@@ -26,13 +29,5 @@ fn panic(info: &PanicInfo) -> ! {
 #[cfg(not(test))]
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
-	println!("GARBAGE! {}", 420.69);
-
-	// initialize our interrupts
-	posos::interrupts::init_idt();
-
-	println!("It's all good my dude -cory");
-	unsafe { exit_qemu(); }
-	// Hold state indefinitely
-	loop {}
+	panic!();
 }
