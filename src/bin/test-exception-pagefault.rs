@@ -1,7 +1,7 @@
-// file:	test-interrupt-divbyzero.rs
+// file:	test-exception-pagefault.rs
 // author:	garnt
 // date:	2/4/2019
-// desc:	Integration test that tests divbyzero interrupts
+// desc:	Integration test that tests page faults
 
 // disables the rust stl. required to run on bare metal.
 // disabling the stl breaks main() so we need to macro that off as well.
@@ -33,12 +33,10 @@ fn panic(info: &PanicInfo) -> ! {
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
 	// initialize the idt
-	posos::interrupts::init_idt();
+	posos::interrupts::init();
 
-	// divide by zerooooo
-	unsafe {
-        asm!("mov dx, 0; div dx" ::: "ax", "dx" : "volatile", "intel")
-    }
+	// cafebabe is free, they shall never be changed by your puny bad rust
+	unsafe { *(0xcafebabe as *mut u64) = 12 };
 
 	serial_println!("ok");
 

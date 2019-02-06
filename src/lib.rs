@@ -7,11 +7,22 @@
 #![cfg_attr(not(test), no_std)]
 // allow use of x86-interrupt foreign call
 #![feature(abi_x86_interrupt)]
+// allow intrinsics for shit like unreachable()
+#![feature(core_intrinsics)]
+// allow inline assembly to make rust do what i want it to sometimes
+#![feature(asm)]
+// allow naked functions for some true fuckery
+#![feature(naked_functions)]
+
 
 pub mod interrupts;
 pub mod serial;
 pub mod vga_buffer;
 
+// import bitflags and bit_field
+// we have to do this shenanigans so we can import bitflags' macros
+#[macro_use]
+extern crate bitflags;
 extern crate bit_field;
 
 // exit_qemu() does exactly what you think it does

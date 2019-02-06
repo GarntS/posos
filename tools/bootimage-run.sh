@@ -9,4 +9,4 @@ if [ ! -z "$1" ]; then
 fi
 
 # either run the default binary or another if its name is passed to this
-bootimage run $extra_run_arg -- -serial mon:stdio -device isa-debug-exit,iobase=0xf4,iosize=0x04 $extra_display_arg
+bootimage run $extra_run_arg -- -serial mon:stdio -device isa-debug-exit,iobase=0xf4,iosize=0x04 -enable-kvm #$extra_display_arg

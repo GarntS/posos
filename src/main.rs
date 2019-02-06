@@ -29,7 +29,7 @@ pub extern "C" fn _start() -> ! {
 	println!("GARBAGE! {}", 420.69);
 
 	// initialize our interrupts
-	posos::interrupts::init_idt();
+	posos::interrupts::init();
 
 	println!("It's all good my dude -cory");
 	unsafe { exit_qemu(); }
